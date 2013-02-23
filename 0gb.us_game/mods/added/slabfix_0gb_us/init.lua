@@ -49,5 +49,5 @@ for _, subname in pairs({
 	minetest.register_node(":stairs:slab_"..subname, slab)
 end
 
-minetest.debug("[slabfix_0gb_us] Plugin loaded from "..minetest.get_modpath("slabfix_0gb_us"))
+minetest.debug("[slabfix_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("slabfix_0gb_us"))
 
