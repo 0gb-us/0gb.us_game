@@ -3,7 +3,7 @@ minetest.register_privilege("drain", "Lava cleanup duty? Again!?")
 minetest.register_chatcommand("drain", {
 	params = "",
 	description = "Destroys all nodes that can be built to within the current map chunk ",
-	privs = {demigod=true},
+	privs = {drain=true},
 	func = function(name, param)
 		local player = minetest.env:get_player_by_name(name)
 		local pos = player:getpos()
