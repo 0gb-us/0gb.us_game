@@ -8,6 +8,8 @@ local price = {
 	number = tonumber(minetest.setting_get("number.landclaim.0gb.us") or 9),
 }
 
+minetest.register_privilege("claim_admin", "Can override claims")
+
 -- Lua definitions:
 
 landclaim_0gb_us = {}
@@ -76,6 +78,7 @@ end
 function landclaim_0gb_us.can_interact(name, pos)	
 	local chunk = landclaim_0gb_us.get_chunk(pos)
 	return claims[chunk] == nil or claims[chunk].owner == name or claims[chunk].shared[name]
+		or minetest.check_player_privs(name, {claim_admin=true})
 end
 
 local default_place = minetest.item_place
@@ -167,13 +170,13 @@ minetest.register_chatcommand("unclaim", {
 		local owner = landclaim_0gb_us.get_owner(pos)
 		local inv = player:get_inventory()
 		if owner then
-			if owner == name then
+			if owner == name or minetest.check_player_privs(name, {claim_admin=true}) then
 				points_0gb_us.add_points(name, price.ore, price.number)
 				points_0gb_us.save(name)
 				chunk = landclaim_0gb_us.get_chunk(pos)
 				claims[chunk] = nil
 				landclaim_0gb_us.save_claims()
-				minetest.chat_send_player(name, "You renounced your claim on this area.")
+				minetest.chat_send_player(name, "You have renounced the claim on this area.")
 				local entpos = landclaim_0gb_us.get_chunk_center(pos)
 				minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 			else
@@ -195,7 +198,7 @@ minetest.register_chatcommand("sharearea", {
 		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local owner = landclaim_0gb_us.get_owner(pos)
 		if owner then
-			if owner == name and name ~= param then
+			if (owner == name  or minetest.check_player_privs(name, {claim_admin=true})) and name ~= param then
 				if minetest.auth_table[param] then
 					claims[landclaim_0gb_us.get_chunk(pos)].shared[param] = param
 					landclaim_0gb_us.save_claims()
@@ -225,7 +228,7 @@ minetest.register_chatcommand("unsharearea", {
 		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local owner = landclaim_0gb_us.get_owner(pos)
 		if owner then
-			if owner == name then
+			if owner == name or minetest.check_player_privs(name, {claim_admin=true}) then
 				if name ~= param then
 					claims[landclaim_0gb_us.get_chunk(pos)].shared[param] = nil
 					landclaim_0gb_us.save_claims()
