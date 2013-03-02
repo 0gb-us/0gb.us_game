@@ -388,6 +388,7 @@ minetest.register_chatcommand("importcost", {
 dofile(minetest.get_modpath("build_0gb_us").."/craft.lua")
 dofile(minetest.get_modpath("build_0gb_us").."/cobble.lua")
 dofile(minetest.get_modpath("build_0gb_us").."/chunk.lua")
+dofile(minetest.get_modpath("build_0gb_us").."/defaultgenerators.lua")
 
 minetest.debug("[build_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("build_0gb_us"))
 
