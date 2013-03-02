@@ -250,5 +250,5 @@ minetest.register_chatcommand("listwarps", {
 	end,
 })
 
-minetest.debug("[teleport_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("teleport_0gb_us"))
+minetest.debug("[teleport_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("teleport_0gb_us"))
 

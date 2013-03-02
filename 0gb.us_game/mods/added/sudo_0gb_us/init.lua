@@ -139,5 +139,5 @@ if minetest.setting_getbool("sudo.0gb.us") then
 	})
 end
 
-minetest.debug("[sudo_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("sudo_0gb_us"))
+minetest.debug("[sudo_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("sudo_0gb_us"))
 

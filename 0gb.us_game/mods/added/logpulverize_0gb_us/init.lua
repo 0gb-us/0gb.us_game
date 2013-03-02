@@ -16,5 +16,5 @@ function minetest.chatcommands.pulverize.func(name, param)
 	func(name, param)
 end
 
-minetest.debug("[logpulverize_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("logpulverize_0gb_us"))
+minetest.debug("[logpulverize_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("logpulverize_0gb_us"))
 

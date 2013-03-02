@@ -30,5 +30,5 @@ function __builtin_item.on_punch(self, hitter)
 	end
 end
 
-minetest.debug("[fullinventory_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("fullinventory_0gb_us"))
+minetest.debug("[fullinventory_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("fullinventory_0gb_us"))
 

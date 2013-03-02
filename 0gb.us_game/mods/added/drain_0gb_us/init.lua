@@ -30,5 +30,5 @@ minetest.register_chatcommand("drain", {
 	end,
 })
 
-minetest.debug("[drain_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("drain_0gb_us"))
+minetest.debug("[drain_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("drain_0gb_us"))
 

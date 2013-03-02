@@ -75,5 +75,5 @@ end
 
 minetest.register_node(":default:sign_wall", sign)
 
-minetest.debug("[barter_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("barter_0gb_us"))
+minetest.debug("[barter_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("barter_0gb_us"))
 

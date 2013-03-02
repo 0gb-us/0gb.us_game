@@ -6,5 +6,5 @@ inventory_plus.set_inventory_formspec = function(player,formspec)
 	player:set_inventory_formspec(formspec)
 end
 
-minetest.debug("[inventory_plus]:\nWait a minute. This isn't the real inventory_plus ...")
+minetest.debug("[inventory_plus]: Wait a minute. This isn't the real inventory_plus ...")
 

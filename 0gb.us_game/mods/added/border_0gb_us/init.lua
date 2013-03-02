@@ -40,5 +40,5 @@ function minetest.item_drop(itemstack, dropper, pos)
 	end
 end
 
-minetest.debug("[border_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("border_0gb_us"))
+minetest.debug("[border_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("border_0gb_us"))
 

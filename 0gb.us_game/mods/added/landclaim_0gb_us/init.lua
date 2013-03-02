@@ -78,15 +78,15 @@ function landclaim_0gb_us.can_interact(name, pos)
 	return claims[chunk] == nil or claims[chunk].owner == name or claims[chunk].shared[name]
 end
 
-landclaim_0gb_us.default_place = minetest.item_place
-landclaim_0gb_us.default_dig = minetest.node_dig
+local default_place = minetest.item_place
+local default_dig = minetest.node_dig
 
 -- Redefined Lua:
 
 function minetest.node_dig(pos, node, digger)
 	local player = digger:get_player_name()
 	if landclaim_0gb_us.can_interact(player, pos) then
-		landclaim_0gb_us.default_dig(pos, node, digger)
+		default_dig(pos, node, digger)
 	else
 		minetest.chat_send_player(player, "Area owned by "..landclaim_0gb_us.get_owner(pos))
 	end
@@ -97,12 +97,12 @@ function minetest.item_place(itemstack, placer, pointed_thing)
 	owner = landclaim_0gb_us.get_owner(pointed_thing.above)
 	player = placer:get_player_name()
 		if landclaim_0gb_us.can_interact(player, pointed_thing.above) then
-			return landclaim_0gb_us.default_place(itemstack, placer, pointed_thing)
+			return default_place(itemstack, placer, pointed_thing)
 		else
 			minetest.chat_send_player(player, "Area owned by "..owner)
 		end
 	else
-		return landclaim_0gb_us.default_place(itemstack, placer, pointed_thing)
+		return default_place(itemstack, placer, pointed_thing)
 	end
 end
 				
@@ -122,6 +122,8 @@ minetest.register_chatcommand("landowner", {
 		local owner = landclaim_0gb_us.get_owner(pos)
 		if owner then
 			minetest.chat_send_player(name, "This area is owned by "..owner)
+			local entpos = landclaim_0gb_us.get_chunk_center(pos)
+			minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 		else
 			minetest.chat_send_player(name, "This area is unowned.")
 		end
@@ -148,6 +150,8 @@ minetest.register_chatcommand("claim", {
 			minetest.chat_send_player(claims[chunk].owner, "You now own this area.")
 			points_0gb_us.add_points(name, price.ore, -price.number)
 			points_0gb_us.save(name)
+			local entpos = landclaim_0gb_us.get_chunk_center(pos)
+			minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 		end
 	end,
 })
@@ -170,6 +174,8 @@ minetest.register_chatcommand("unclaim", {
 				claims[chunk] = nil
 				landclaim_0gb_us.save_claims()
 				minetest.chat_send_player(name, "You renounced your claim on this area.")
+				local entpos = landclaim_0gb_us.get_chunk_center(pos)
+				minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 			else
 				minetest.chat_send_player(name, "This area is owned by "..owner)
 			end
@@ -195,6 +201,8 @@ minetest.register_chatcommand("sharearea", {
 					landclaim_0gb_us.save_claims()
 					minetest.chat_send_player(name, param.." may now edit this area.")
 					minetest.chat_send_player(param, name.." has just shared an area with you.")
+					local entpos = landclaim_0gb_us.get_chunk_center(pos)
+					minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 				else
 					minetest.chat_send_player(name, param.." is not a valid player.")
 				end
@@ -223,6 +231,8 @@ minetest.register_chatcommand("unsharearea", {
 					landclaim_0gb_us.save_claims()
 					minetest.chat_send_player(name, param.." may no longer edit this area.")
 					minetest.chat_send_player(param, name.." has just revoked your editing privileges in an area.")
+					local entpos = landclaim_0gb_us.get_chunk_center(pos)
+					minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 				else
 					minetest.chat_send_player(name, 'Use "/unclaim" to unclaim the aria.')
 				end
@@ -250,6 +260,8 @@ minetest.register_chatcommand("mayedit", {
 				mayedit = mayedit..", "..user
 			end
 			minetest.chat_send_player(name, mayedit)
+			local entpos = landclaim_0gb_us.get_chunk_center(pos)
+			minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 		else
 			minetest.chat_send_player(name, "This area is unowned.")
 		end
@@ -314,5 +326,5 @@ minetest.after(0,function()
 	dofile(path.."/debug.lua")
 end)
 
-minetest.debug("[landclaim_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("landclaim_0gb_us"))
+minetest.debug("[landclaim_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("landclaim_0gb_us"))
 

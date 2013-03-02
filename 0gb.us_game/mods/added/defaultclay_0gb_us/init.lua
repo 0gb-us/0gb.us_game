@@ -5,5 +5,5 @@ minetest.register_craft({
 	recipe = {{'default:clay'}}
 })
 
-minetest.debug("[defaultclay_0gb_us]:\nPlugin loaded from "..minetest.get_modpath("defaultclay_0gb_us"))
+minetest.debug("[defaultclay_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("defaultclay_0gb_us"))
 
