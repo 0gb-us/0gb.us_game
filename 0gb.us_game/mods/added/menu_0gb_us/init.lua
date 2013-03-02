@@ -1,8 +1,8 @@
 local function set_formspec(player)
 	if skins.custom(player:get_player_name()) then
 		player:set_inventory_formspec(
-			"size[8,9.5]\
-			list[current_player;main;0,3.5;8,6;]\
+			"size[8,7.5]\
+			list[current_player;main;0,3.5;8,4;]\
 			list[current_player;craft;3,0;3,3;]\
 			list[current_player;craftpreview;7,1;1,1;]"..
 --			button[0,0.1;3,0.5;skins;Choose Skin]\
@@ -12,8 +12,8 @@ local function set_formspec(player)
 		)
 	else
 		player:set_inventory_formspec(
-			"size[8,9.5]\
-			list[current_player;main;0,3.5;8,6;]\
+			"size[8,7.5]\
+			list[current_player;main;0,3.5;8,4;]\
 			list[current_player;craft;3,0;3,3;]\
 			list[current_player;craftpreview;7,1;1,1;]\
 			button[0,0.1;3,0.5;skins;Choose Skin]"..
@@ -26,8 +26,6 @@ end
 
 minetest.register_on_joinplayer(function(player)
 	set_formspec(player)
-	local inv = player:get_inventory()
-	inv:set_size("main", 8*6)
 end)
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
