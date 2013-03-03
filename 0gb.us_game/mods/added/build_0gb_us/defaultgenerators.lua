@@ -1,5 +1,5 @@
 build_0gb_us.register_generator("woodchecker", function(seed)
-  if seed%2==0
+  if seed%2==0 then
     return "default:tree"
   else
     return "default:wood"
@@ -7,7 +7,7 @@ build_0gb_us.register_generator("woodchecker", function(seed)
 end)
 
 build_0gb_us.register_generator("cactuschecker", function(seed)
-  if seed%2==0
+  if seed%2==0 then
     return "default:cobble"
   else
     return "default:cactus"
@@ -15,7 +15,7 @@ build_0gb_us.register_generator("cactuschecker", function(seed)
 end)
 
 build_0gb_us.register_generator("furnacechests", function(seed)
-  if seed%2==0
+  if seed%2==0 then
     return "default:chest"
   else
     return "default:furnace"

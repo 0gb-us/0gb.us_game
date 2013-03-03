@@ -31,7 +31,7 @@ end
 build_0gb_us = {
 	directory = minetest.setting_get("directory.build.0gb.us") or minetest.get_worldpath().."/schems",
 -- compatible with worldedit by default
-	generators = {}
+	generators = {},
 	place = function(player, pos, placenode, dir, updateoverride)
 		local inv = player:get_inventory()
 		local node = minetest.env:get_node_or_nil(pos)
@@ -88,7 +88,7 @@ end,
 fillpattern = function(player, pos0, pos1, pattern, dir)
 		local seed=0
 		local min, max = build_0gb_us.normalize(pos0, pos1)
-		if build_0gb_us.generators[pattern]
+		if build_0gb_us.generators[pattern] then
 			for y = min.y, max.y do
 				for x = min.x, max.x do
 					for z = min.z, max.z do
@@ -298,7 +298,7 @@ minetest.register_chatcommand("fill", {
 })
 
 minetest.register_chatcommand("fillpattern", {
-	params = "<pattern>"
+	params = "<pattern>",
 	description = "Fills an area with the given pattern of nodes",
 	privs = {build=true},
 	func = function(name, param)
