@@ -88,16 +88,15 @@ end,
 fillpattern = function(player, pos0, pos1, pattern, dir)
 		local seed=0
 		local min, max = build_0gb_us.normalize(pos0, pos1)
+		local size = {x=max.x-min.x, y=max.y-min.y, z=max.z-min.z}
 		if build_0gb_us.generators[pattern] then
-			for y = min.y, max.y do
-				for x = min.x, max.x do
+			for x = min.x, max.x do
+				for y = min.y, max.y do
 					for z = min.z, max.z do
-						build_0gb_us.place(player, {x=x,y=y,z=z}, build_0gb_us.generators[pattern](seed), dir)
-						seed = seed + 1
+						build_0gb_us.place(player, {x=x,y=y,z=z}, build_0gb_us.generators[pattern]({x=x-min.x, y=y-min.y, z=z-min.z}, size), dir)
 					end
 				end
 			end
-		
 		end
 	
 	
