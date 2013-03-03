@@ -2,6 +2,9 @@ if io.open(minetest.get_modpath("build_0gb_us").."/INIT.LUA") then
 	return minetest.debug("[build_0gb_us]: This plugin requires a case-sensitive file system to function correctly.")
 end
 
+
+
+
 local function craft(inv, node)
 	if not build_0gb_us.craft[node] then
 		return false
@@ -28,6 +31,7 @@ end
 build_0gb_us = {
 	directory = minetest.setting_get("directory.build.0gb.us") or minetest.get_worldpath().."/schems",
 -- compatible with worldedit by default
+	generators = {}
 	place = function(player, pos, placenode, dir, updateoverride)
 		local inv = player:get_inventory()
 		local node = minetest.env:get_node_or_nil(pos)
@@ -74,6 +78,29 @@ build_0gb_us = {
 				end
 			end
 		end
+end,
+
+register_generator = function(name, func)
+	build_0gb_us.generators[name]=func
+end,
+
+
+fillpattern = function(player, pos0, pos1, pattern, dir)
+		local seed=0
+		local min, max = build_0gb_us.normalize(pos0, pos1)
+		if build_0gb_us.generators[pattern]
+			for y = min.y, max.y do
+				for x = min.x, max.x do
+					for z = min.z, max.z do
+						build_0gb_us.place(player, {x=x,y=y,z=z}, build_0gb_us.generators[pattern](seed), dir)
+						seed = seed + 1
+					end
+				end
+			end
+		
+		end
+	
+	
 	end,
 	export = function(name, pos0, pos1, filename)
 		local min, max = build_0gb_us.normalize(pos0, pos1)
@@ -270,6 +297,26 @@ minetest.register_chatcommand("fill", {
 	end,
 })
 
+minetest.register_chatcommand("fillpattern", {
+	params = "<pattern>"
+	description = "Fills an area with the given pattern of nodes",
+	privs = {build=true},
+	func = function(name, param)
+		if param == "" then
+			minetest.chat_send_player(name, "/fillpattern requires an argument.")
+			return
+		end
+		if not build_0gb_us.pos[name] or not build_0gb_us.pos[name].pos0 or not build_0gb_us.pos[name].pos1 then
+			minetest.chat_send_player(name, "Use /pos0 and /pos1 to set the corners of an area.")
+		else
+			local player = minetest.env:get_player_by_name(name)
+			build_0gb_us.fillpattern(player, build_0gb_us.pos[name].pos0, build_0gb_us.pos[name].pos1, param)
+			minetest.chat_send_player(name, "Filled.")
+		end
+	end,
+})
+
+
 minetest.register_chatcommand("export", {
 	params = "<filename>",
 	description = "Exports the selected area to a worldedit-compatible file",
@@ -341,6 +388,7 @@ minetest.register_chatcommand("importcost", {
 dofile(minetest.get_modpath("build_0gb_us").."/craft.lua")
 dofile(minetest.get_modpath("build_0gb_us").."/cobble.lua")
 dofile(minetest.get_modpath("build_0gb_us").."/chunk.lua")
+dofile(minetest.get_modpath("build_0gb_us").."/defaultgenerators.lua")
 
 minetest.debug("[build_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("build_0gb_us"))
 
