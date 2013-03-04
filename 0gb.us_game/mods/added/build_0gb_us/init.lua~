@@ -196,7 +196,29 @@ build_0gb_us = {
 
 os.execute('mkdir -p "'..build_0gb_us.directory..'"')
 
-minetest.register_privilege("build", "May use the commands to build structures")
+minetest.register_privilege("build", "May use the /build command to build structures")
+
+minetest.register_chatcommand("build", {
+	params = "<structure>",
+	description = "Builds a structure if there are enough materials in the user's inventory",
+	privs = {build=true},
+	func = function(name, param)
+		local player = minetest.env:get_player_by_name(name)
+		local pos = player:getpos()
+
+		if not landclaim_0gb_us.can_interact(name, pos) then
+			owner = landclaim_0gb_us.get_owner(pos)
+			minetest.chat_send_player(name, "Area owned by "..owner)
+			return
+		elseif not build_0gb_us.blueprints[param] then
+			minetest.chat_send_player(name, 'A blueprint for "'..param..'" does not exist.')
+			return
+		else
+			local center = landclaim_0gb_us.get_chunk_center(pos)
+			build_0gb_us.blueprints[param](center, player)
+		end
+	end,
+})
 
 minetest.register_chatcommand("pos0", {
 	params = "",
