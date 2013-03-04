@@ -276,8 +276,11 @@ minetest.register_chatcommand("mayedit_remote", {
 	description = "lists the people who may edit a remote location",
 	privs = {interact=true},
 	func = function(name, param)
-		local pos ={}
-		pos.x, pos.y, pos.z = string.match(param, "^([%d.-]+)[, ] *([%d.-]+)[, ] *([%d.-]+)$")
+		local pos = minetest.string_to_pos(param)
+		if not pos then
+			return minetest.chat_send_player(name, "Invalid coordinates.")
+		end
+		pos.y = pos.y + 0.5
 		-- pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local mayedit = landclaim_0gb_us.get_owner(pos)
 		if mayedit then
