@@ -32,6 +32,7 @@ build_0gb_us = {
 	place = function(player, pos, placenode, dir, updateoverride)
 		local inv = player:get_inventory()
 		local node = minetest.env:get_node_or_nil(pos)
+		placenode = ItemStack(placenode):to_string()
 		if not node or not minetest.registered_nodes[node.name] then
 			return
 		elseif minetest.registered_nodes[node.name].buildable_to then
