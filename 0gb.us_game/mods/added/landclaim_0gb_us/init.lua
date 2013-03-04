@@ -271,6 +271,29 @@ minetest.register_chatcommand("mayedit", {
 	end,
 })
 
+minetest.register_chatcommand("mayedit_remote", {
+	params = "",
+	description = "lists the people who may edit a remote location",
+	privs = {interact=true},
+	func = function(name, param)
+		local pos ={}
+		pos.x, pos.y, pos.z = string.match(param, "^([%d.-]+)[, ] *([%d.-]+)[, ] *([%d.-]+)$")
+		-- pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
+		local mayedit = landclaim_0gb_us.get_owner(pos)
+		if mayedit then
+			local chunk = landclaim_0gb_us.get_chunk(pos)
+			for user, user in pairs(claims[chunk].shared) do
+				mayedit = mayedit..", "..user
+			end
+			minetest.chat_send_player(name, mayedit)
+			local entpos = landclaim_0gb_us.get_chunk_center(pos)
+			minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
+		else
+			minetest.chat_send_player(name, "This area is unowned.")
+		end
+	end,
+})
+
 
 minetest.register_entity("landclaim_0gb_us:showarea",{
 	on_activate = function(self, staticdata, dtime_s)
