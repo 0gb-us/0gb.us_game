@@ -1,3 +1,9 @@
+-- Get tables from api.lua and hide them from the global scope:
+local price = landclaim_0gb_us.price
+local claims = landclaim_0gb_us.claims
+landclaim_0gb_us.price = nil
+landclaim_0gb_us.claims = nil
+
 minetest.register_privilege("claim_admin", "Can override claims")
 
 minetest.register_chatcommand("claimoverride", {

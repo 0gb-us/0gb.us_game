@@ -75,3 +75,7 @@ function landclaim_0gb_us.can_interact(name, pos)
 		or (landclaim_0gb_us.override[name] and minetest.check_player_privs(name, {claim_admin=true}))
 end
 
+-- Pass these to commands.lua:
+landclaim_0gb_us.price = price
+landclaim_0gb_us.claims = claims
+
