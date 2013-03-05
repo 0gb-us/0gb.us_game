@@ -41,6 +41,13 @@ function doors:register_door(name, def)
 			if not pointed_thing.type == "node" then
 				return itemstack
 			end
+			
+			local ptu = pointed_thing.under
+			local nu = minetest.env:get_node(ptu)
+			if minetest.registered_nodes[nu.name].on_rightclick then
+				return minetest.registered_nodes[nu.name].on_rightclick(ptu, nu, placer, itemstack)
+			end
+			
 			local pt = pointed_thing.above
 			local pt2 = {x=pt.x, y=pt.y, z=pt.z}
 			pt2.y = pt2.y+1
@@ -82,7 +89,9 @@ function doors:register_door(name, def)
 				meta:set_string("infotext", "Owned by "..pn)
 			end
 			
-			itemstack:take_item()
+			if not minetest.setting_getbool("creative_mode") then
+				itemstack:take_item()
+			end
 			return itemstack
 		end,
 	})
@@ -96,7 +105,7 @@ function doors:register_door(name, def)
 		end
 	end
 	
-	local function on_punch(pos, dir, check_name, replace, replace_dir, params)
+	local function on_rightclick(pos, dir, check_name, replace, replace_dir, params)
 		pos.y = pos.y+dir
 		if not minetest.env:get_node(pos).name == check_name then
 			return
@@ -144,9 +153,9 @@ function doors:register_door(name, def)
 			after_dig_node(pos, name.."_t_1")
 		end,
 		
-		on_punch = function(pos, node, puncher)
-			if check_player_priv(pos, puncher) then
-				on_punch(pos, 1, name.."_t_1", name.."_b_2", name.."_t_2", {1,2,3,0})
+		on_rightclick = function(pos, node, clicker)
+			if check_player_priv(pos, clicker) then
+				on_rightclick(pos, 1, name.."_t_1", name.."_b_2", name.."_t_2", {1,2,3,0})
 			end
 		end,
 		
@@ -174,9 +183,9 @@ function doors:register_door(name, def)
 			after_dig_node(pos, name.."_b_1")
 		end,
 		
-		on_punch = function(pos, node, puncher)
-			if check_player_priv(pos, puncher) then
-				on_punch(pos, -1, name.."_b_1", name.."_t_2", name.."_b_2", {1,2,3,0})
+		on_rightclick = function(pos, node, clicker)
+			if check_player_priv(pos, clicker) then
+				on_rightclick(pos, -1, name.."_b_1", name.."_t_2", name.."_b_2", {1,2,3,0})
 			end
 		end,
 		
@@ -204,9 +213,9 @@ function doors:register_door(name, def)
 			after_dig_node(pos, name.."_t_2")
 		end,
 		
-		on_punch = function(pos, node, puncher)
-			if check_player_priv(pos, puncher) then
-				on_punch(pos, 1, name.."_t_2", name.."_b_1", name.."_t_1", {3,0,1,2})
+		on_rightclick = function(pos, node, clicker)
+			if check_player_priv(pos, clicker) then
+				on_rightclick(pos, 1, name.."_t_2", name.."_b_1", name.."_t_1", {3,0,1,2})
 			end
 		end,
 		
@@ -234,9 +243,9 @@ function doors:register_door(name, def)
 			after_dig_node(pos, name.."_b_2")
 		end,
 		
-		on_punch = function(pos, node, puncher)
-			if check_player_priv(pos, puncher) then
-				on_punch(pos, -1, name.."_b_2", name.."_t_1", name.."_b_1", {3,0,1,2})
+		on_rightclick = function(pos, node, clicker)
+			if check_player_priv(pos, clicker) then
+				on_rightclick(pos, -1, name.."_b_2", name.."_t_1", name.."_b_1", {3,0,1,2})
 			end
 		end,
 		
@@ -256,9 +265,9 @@ doors:register_door("doors:door_wood", {
 minetest.register_craft({
 	output = "doors:door_wood",
 	recipe = {
-		{"default:wood", "default:wood"},
-		{"default:wood", "default:wood"},
-		{"default:wood", "default:wood"}
+		{"group:wood", "group:wood"},
+		{"group:wood", "group:wood"},
+		{"group:wood", "group:wood"}
 	}
 })
 
