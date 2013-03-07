@@ -1,5 +1,5 @@
 if io.open(minetest.get_modpath("landclaim_0gb_us").."/INIT.LUA") then
-	return minetest.debug("[landclaim_0gb_us]:\nThis plugin depends on points_0gb_us, which requires a case-sensitive file system to function correctly.")
+	return minetest.debug("[landclaim_0gb_us]: This plugin depends on points_0gb_us, which requires a case-sensitive file system to function correctly.")
 end
 
 local path = minetest.get_modpath("landclaim_0gb_us")
@@ -7,7 +7,7 @@ dofile(path.."/api.lua")
 dofile(path.."/commands.lua")
 dofile(path.."/debug.lua")
 
-local default_place = minetest.item_place
+local default_place = minetest.item_place_node
 local default_dig = minetest.node_dig
 
 function minetest.node_dig(pos, node, digger)
@@ -19,17 +19,13 @@ function minetest.node_dig(pos, node, digger)
 	end
 end
 
-function minetest.item_place(itemstack, placer, pointed_thing)
-	if itemstack:get_definition().type == "node" then
-	owner = landclaim_0gb_us.get_owner(pointed_thing.above)
-	player = placer:get_player_name()
-		if landclaim_0gb_us.can_interact(player, pointed_thing.above) then
-			return default_place(itemstack, placer, pointed_thing)
-		else
-			minetest.chat_send_player(player, "Area owned by "..owner)
-		end
-	else
+function minetest.item_place_node(itemstack, placer, pointed_thing)
+	local owner = landclaim_0gb_us.get_owner(pointed_thing.above)
+	local player = placer:get_player_name()
+	if landclaim_0gb_us.can_interact(player, pointed_thing.above) then
 		return default_place(itemstack, placer, pointed_thing)
+	else
+		minetest.chat_send_player(player, "Area owned by "..owner)
 	end
 end
 				
