@@ -148,14 +148,19 @@ build_0gb_us = {
 		if file then
 			local player = minetest.env:get_player_by_name(name)
 			local min, max = build_0gb_us.normalize(pos0, pos1)
+			local update = {}
 			for line in file:lines() do
 				local data = line:split(" ")
 				if #data == 6 then
 					build_0gb_us.place(player, {x=min.x+data[1],y=min.y+data[2],z=min.z+data[3]}, data[4], data[6], true)
 -- Ignore data[5], which represents param1
+					table.insert(update, {x=min.x+data[1],y=min.y+data[2],z=min.z+data[3]})
 				end
 			end
 			file:close()
+			for key, value in pairs(update) do
+				nodeupdate(value)
+			end
 			minetest.chat_send_player(name, "Imported.")
 		else
 			minetest.chat_send_player(name, "The file failed to load. It may be missing.")
