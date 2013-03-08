@@ -57,7 +57,7 @@ function sign.on_punch(pos, node, puncher)
 		elseif not chestinv:contains_item("main", shop.output) then
 			minetest.chat_send_player(puncher:get_player_name(), "ERROR: Chest is out of inventory.")
 		elseif not playerinv:room_for_item("main", shop.output) then
-			minetest.chat_send_player(puncher:get_player_name(), "ERROR: Your inventory if full.")
+			minetest.chat_send_player(puncher:get_player_name(), "ERROR: Your inventory is full.")
 		elseif not playerinv:contains_item("main", shop.input) then
 			minetest.chat_send_player(puncher:get_player_name(), "ERROR: Your inventory does not contain the required items.")
 		else
