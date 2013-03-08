@@ -16,7 +16,12 @@ local function parse_shop(text)
 	local output = text:match('^"" Input: [%w_: ]* Output: ([%w_: ]*) ""$')
 -- " Input: default:iron_lump 9 Output: default:papyrus "
 	if input and output then
-		return { input=input, output=output }
+		input = ItemStack(input)
+		output = ItemStack(output)
+		if input:get_count() <= input:get_stack_max()
+		and output:get_count() <= output:get_stack_max() then
+			return { input=input, output=output }
+		end
 	end
 end
 
@@ -60,7 +65,7 @@ function sign.on_punch(pos, node, puncher)
 			chestinv:add_item("main", input)
 			local output = chestinv:remove_item("main", shop.output)
 			playerinv:add_item("main", output)
-			minetest.chat_send_player(puncher:get_player_name(), "You paid "..shop.input.." and recieved "..shop.output..".")
+			minetest.chat_send_player(puncher:get_player_name(), "You paid "..shop.input:to_string().." and recieved "..shop.output:to_string()..".")
 		end
 	end
 end

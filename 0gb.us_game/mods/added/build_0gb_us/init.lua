@@ -111,7 +111,7 @@ build_0gb_us = {
 					if node then
 						if not minetest.registered_items[node.name]
 						or not minetest.registered_items[node.name].buildable_to then
-							table.insert(tosave,{x=x,y=y,z=z,data=node.name.." "..node.param1.." "..node.param2})
+							table.insert(tosave,{x=x,y=y,z=z,data=node.name.." 0 "..node.param2})
 							if not minused.x or x < minused.x then
 								minused.x  = x
 							end
