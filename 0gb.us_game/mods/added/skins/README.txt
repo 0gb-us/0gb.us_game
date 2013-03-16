@@ -2,3 +2,11 @@ Originally written by Zeg9
 Modified by 0gb.us
 Licence: WTFPL
 
+Skins artists:
+* character 0: Zeg9
+* characters 1 - 9: jmf
+* characters 10 - 11: Chinchow
+* characters 12 - 18: jojoa1997
+* player 0: Zeg9
+* player 1: clunk
+* players 2 - 7: InfinityProject
