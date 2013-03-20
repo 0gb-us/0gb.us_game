@@ -27,10 +27,10 @@ for _, subname in pairs({
 			slabnode = n0
 		end
 		if slabpos then
-			-- Remove the slab at slabpos
---[[			minetest.env:remove_node(slabpos)
+			--[[ Remove the slab at slabpos
+			minetest.env:remove_node(slabpos)
 			-- Make a fake stack of a single item and try to place it
-			local fakestack = ItemStack(recipeitem)
+			local fakestack = ItemStack("default:" .. subname)
 			pointed_thing.above = slabpos
 			fakestack = minetest.item_place(fakestack, placer, pointed_thing)
 			-- If the item was taken from the fake stack, decrement original
@@ -42,7 +42,48 @@ for _, subname in pairs({
 			end]]
 			return itemstack
 		end
-		
+			
+		-- Upside down slabs
+		if p0.y-1 == p1.y then
+			-- Turn into full block if pointing at a existing slab
+			if n0.name == "stairs:slab_" .. subname.."upside_down" then
+				--[[ Remove the slab at the position of the slab
+				minetest.env:remove_node(p0)
+				-- Make a fake stack of a single item and try to place it
+				local fakestack = ItemStack("default:" .. subname)
+				pointed_thing.above = p0
+				fakestack = minetest.item_place(fakestack, placer, pointed_thing)
+				-- If the item was taken from the fake stack, decrement original
+				if not fakestack or fakestack:is_empty() then
+					itemstack:take_item(1)
+				-- Else put old node back
+				else
+					minetest.env:set_node(p0, n0)
+				end]]
+				return itemstack
+			end
+				
+			-- Place upside down slab
+			local fakestack = ItemStack("stairs:slab_" .. subname.."upside_down")
+			local ret = minetest.item_place(fakestack, placer, pointed_thing)
+			if ret:is_empty() then
+				itemstack:take_item()
+				return itemstack
+			end
+		end
+			
+		-- If pointing at the side of a upside down slab
+		if n0.name == "stairs:slab_" .. subname.."upside_down" and
+				p0.y+1 ~= p1.y then
+			-- Place upside down slab
+			local fakestack = ItemStack("stairs:slab_" .. subname.."upside_down")
+			local ret = minetest.item_place(fakestack, placer, pointed_thing)
+			if ret:is_empty() then
+				itemstack:take_item()
+				return itemstack
+			end
+		end
+			
 		-- Otherwise place regularly
 		return minetest.item_place(itemstack, placer, pointed_thing)
 	end
