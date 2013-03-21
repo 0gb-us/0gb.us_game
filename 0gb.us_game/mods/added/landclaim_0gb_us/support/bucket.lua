@@ -39,7 +39,7 @@ if minetest.get_modpath("bucket") then
 					if landclaim_0gb_us.can_interact(player, pointed_thing.under) then
 						return on_use(itemstack, user, pointed_thing)
 					else
-						minetest.chat_send_player(player, "Area owned by "..landclaim_0gb_us.get_owner(pointed_thing.above))
+						minetest.chat_send_player(player, "Area owned by "..landclaim_0gb_us.get_owner(pointed_thing.under))
 					end
 				else
 					if landclaim_0gb_us.can_interact(player, pointed_thing.above) then
