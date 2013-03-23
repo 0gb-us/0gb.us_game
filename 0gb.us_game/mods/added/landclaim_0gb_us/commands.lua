@@ -23,25 +23,6 @@ minetest.register_chatcommand("claimoverride", {
 	end,
 })
 
-minetest.register_chatcommand("landowner", {
-	params = "",
-	description = "tells the owner of the current map chunk",
-	privs = {interact=true},
-	func = function(name, param)
-		local player = minetest.env:get_player_by_name(name)
-		local pos = player:getpos()
-		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
-		local owner = landclaim_0gb_us.get_owner(pos)
-		if owner then
-			minetest.chat_send_player(name, "This area is owned by "..owner)
-			local entpos = landclaim_0gb_us.get_chunk_center(pos)
-			minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
-		else
-			minetest.chat_send_player(name, "This area is unowned.")
-		end
-	end,
-})
-
 minetest.register_chatcommand("claim", {
 	params = "",
 	description = "claims the current map chunk",
@@ -158,39 +139,16 @@ minetest.register_chatcommand("unsharearea", {
 })
 
 minetest.register_chatcommand("mayedit", {
-	params = "",
-	description = "lists the people who may edit the current map chunk",
-	privs = {interact=true},
-	func = function(name, param)
-		local player = minetest.env:get_player_by_name(name)
-		local pos = player:getpos()
-		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
-		local mayedit = landclaim_0gb_us.get_owner(pos)
-		if mayedit then
-			local chunk = landclaim_0gb_us.get_chunk(pos)
-			for user, user in pairs(claims[chunk].shared) do
-				mayedit = mayedit..", "..user
-			end
-			minetest.chat_send_player(name, mayedit)
-			local entpos = landclaim_0gb_us.get_chunk_center(pos)
-			minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
-		else
-			minetest.chat_send_player(name, "This area is unowned.")
-		end
-	end,
-})
-
-minetest.register_chatcommand("mayedit_remote", {
-	params = "",
-	description = "lists the people who may edit a remote location",
+	params = "(nothing) | <x>, <y>, <z>",
+	description = "lists the people who may edit a given map chunk",
 	privs = {interact=true},
 	func = function(name, param)
 		local pos = minetest.string_to_pos(param)
 		if not pos then
-			return minetest.chat_send_player(name, "Invalid coordinates.")
+			local player = minetest.env:get_player_by_name(name)
+			pos = player:getpos()
+			pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		end
-		pos.y = pos.y + 0.5
-		-- pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local mayedit = landclaim_0gb_us.get_owner(pos)
 		if mayedit then
 			local chunk = landclaim_0gb_us.get_chunk(pos)
@@ -198,14 +156,13 @@ minetest.register_chatcommand("mayedit_remote", {
 				mayedit = mayedit..", "..user
 			end
 			minetest.chat_send_player(name, mayedit)
-			local entpos = landclaim_0gb_us.get_chunk_center(pos)
-			minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 		else
 			minetest.chat_send_player(name, "This area is unowned.")
 		end
+		local entpos = landclaim_0gb_us.get_chunk_center(pos)
+		minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
 	end,
 })
-
 
 minetest.register_entity("landclaim_0gb_us:showarea",{
 	on_activate = function(self, staticdata, dtime_s)
@@ -229,27 +186,5 @@ minetest.register_entity("landclaim_0gb_us:showarea",{
 		makes_footstep_sound = false,
 		automatic_rotate = false,
 	}
-})
-
-minetest.register_chatcommand("showarea", {
-	params = "",
-	description = "highlights the boundaries of the current protected area",
-	privs = {interact=true},
-	func = function(name, param)
-		local player = minetest.env:get_player_by_name(name)
-		local pos = player:getpos()
-		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
-		local owner = landclaim_0gb_us.get_owner(pos)
-		if owner or param == "override" then
-			if landclaim_0gb_us.can_interact(name, pos) or param == "override" then
-				local entpos = landclaim_0gb_us.get_chunk_center(pos)
-				minetest.env:add_entity(entpos, "landclaim_0gb_us:showarea")
-			else
-				minetest.chat_send_player(name, "This area is owned by "..owner)
-			end
-		else
-			minetest.chat_send_player(name, "This area is unowned.")
-		end
-	end,
 })
 
