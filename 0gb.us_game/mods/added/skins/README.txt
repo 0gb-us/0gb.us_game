@@ -6,7 +6,7 @@ Skins artists:
 * character 0: Zeg9
 * characters 1 - 9: jmf
 * characters 10 - 11: Chinchow
-* characters 12 - 18: jojoa1997
+* characters 12 - 18, 20: jojoa1997
 * character 19: Robert Arkenin <rarkenin@gmail.com>
 * player 0: Zeg9
 * player 1: clunk
