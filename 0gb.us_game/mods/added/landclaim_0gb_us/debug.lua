@@ -3,6 +3,9 @@ minetest.register_chatcommand("claimdebug", {
 	description = "debug command",
 	privs = {interact=true},
 	func = function(name, param)
+		if not player then
+			return
+		end
 		local player = minetest.env:get_player_by_name(name)
 		local pos = player:getpos()
 		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects

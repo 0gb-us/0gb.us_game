@@ -6,6 +6,9 @@ minetest.register_chatcommand("drain", {
 	privs = {drain=true},
 	func = function(name, param)
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		local pos = player:getpos()
 
 		if not landclaim_0gb_us.can_interact(name, pos) then

@@ -1,25 +1,9 @@
-if minetest.setting_getbool("sudo.0gb.us") then
-	minetest.chatcommands.sudo_grant = minetest.chatcommands.grant
-	minetest.chatcommands.sudo_grant.privs.sudo = true
-
-	minetest.chatcommands.sudo_revoke = minetest.chatcommands.revoke
-	minetest.chatcommands.sudo_revoke.privs.sudo = true
-
-	minetest.chatcommands.sudo_teleport = minetest.chatcommands.teleport
-	minetest.chatcommands.sudo_teleport.privs.sudo = true
-
-	minetest.chatcommands.sudo_clearobjects = minetest.chatcommands.clearobjects
-	minetest.chatcommands.sudo_clearobjects.privs.sudo = true
-
-	minetest.register_privilege("sudo", "Can override the safeguards placed on commands")
-	local privileges = minetest.setting_get("privileges.sudo.0gb.us")
+local privileges = minetest.setting_get("privileges.chatcommands.0gb.us")
+if privileges then
 	local grantable = {}
-	if privileges then
-		for key, value in pairs(privileges:split(",")) do
-			grantable[value] = true
-		end
+	for key, value in pairs(privileges:split(",")) do
+		grantable[value] = true
 	end
-
 	minetest.register_chatcommand("grant", {
 		params = "<name> <privilege>|all",
 		description = "Give privilege to player",
@@ -105,39 +89,52 @@ if minetest.setting_getbool("sudo.0gb.us") then
 			end
 		end,
 	})
-
-	minetest.register_chatcommand("teleport", {
-		params = "<to_name>",
-		description = "teleport to given player",
-		privs = {teleport=true},
-		func = function(name, param)
-			local location = minetest.env:get_player_by_name(param)
-			if location then
-				coords = location:getpos()
-				player = minetest.env:get_player_by_name(name)
-				player:setpos(coords)
-				minetest.chat_send_player(name, "Teleported to "..param..".")
-			else
-				minetest.chat_send_player(name, 'Player "'..param..'" not found.')
-			end
-		end,
-	})
-
-	minetest.register_chatcommand("clearobjects", {
-		params = "",
-		description = "clear all objects in loaded areas",
-		privs = {server=true},
-		func = function(name, param)
-			local player = minetest.env:get_player_by_name(name)
-			for _, obj in pairs(minetest.env:get_objects_inside_radius({x=0,y=0,z=0}, 1000000)) do
-				if not obj:is_player() then
-					obj:punch(player,0, {}, nil)
--- Do NOT replace this with obj:remove()
-				end
-			end
-		end,
-	})
 end
 
-minetest.debug("[sudo_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("sudo_0gb_us"))
+minetest.register_chatcommand("teleport", {
+	params = "<to_name>",
+	description = "teleport to given player",
+	privs = {teleport=true},
+	func = function(name, param)
+		local location = minetest.env:get_player_by_name(param)
+		if location then
+			coords = location:getpos()
+			player = minetest.env:get_player_by_name(name)
+			if not player then
+				return
+			end
+			player:setpos(coords)
+			minetest.chat_send_player(name, "Teleported to "..param..".")
+		else
+			minetest.chat_send_player(name, 'Player "'..param..'" not found.')
+		end
+	end,
+})
+
+minetest.chatcommands["give"] = nil
+minetest.chatcommands["giveme"] = nil
+minetest.chatcommands["spawnentity"] = nil
+
+if not minetest.get_modpath("logpulverize_0gb_us") then
+	minetest.chatcommands["pulverize"] = nil
+end
+
+minetest.chatcommands["rollback"] = nil
+
+minetest.register_chatcommand("clearobjects", {
+	params = "",
+	description = "clear all objects in loaded areas",
+	privs = {server=true},
+	func = function(name, param)
+		local player = minetest.env:get_player_by_name(name)
+		for _, obj in pairs(minetest.env:get_objects_inside_radius({x=0,y=0,z=0}, 1000000)) do
+			if not obj:is_player() then
+				obj:punch(player,0, {}, nil)
+-- Do NOT replace this with obj:remove()
+			end
+		end
+	end,
+})
+
+minetest.debug("[chatcommands_0gb_us]: Plugin loaded from\n"..minetest.get_modpath("chatcommands_0gb_us"))
 

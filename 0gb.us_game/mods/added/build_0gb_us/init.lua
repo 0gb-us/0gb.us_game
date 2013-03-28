@@ -147,6 +147,9 @@ build_0gb_us = {
 		local file = io.open(filename, "r")
 		if file then
 			local player = minetest.env:get_player_by_name(name)
+			if not player then
+				return
+			end
 			local min, max = build_0gb_us.normalize(pos0, pos1)
 			local update = {}
 			for line in file:lines() do

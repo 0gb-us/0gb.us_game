@@ -25,6 +25,9 @@ function build_0gb_us.import_as_cobble(name, pos0, pos1, filename)
 	local file = io.open(filename, "r")
 	if file then
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		local min, max = build_0gb_us.normalize(pos0, pos1)
 		for line in file:lines() do
 			local data = line:split(" ")

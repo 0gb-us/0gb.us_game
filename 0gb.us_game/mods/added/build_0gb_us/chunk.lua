@@ -1,6 +1,9 @@
 if minetest.get_modpath("landclaim_0gb_us") then
 	function build_0gb_us.chunk_select(name)
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		local pos = landclaim_0gb_us.get_chunk_center(player:getpos())
 		if not build_0gb_us.pos[name] then
 			build_0gb_us.pos[name] = {}

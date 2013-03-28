@@ -81,6 +81,9 @@ end)
 local function warp(name, warp)
 	if teleport[name][warp] then
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		player:setpos(teleport[name][warp])
 		minetest.chat_send_player(name, "Teleporting to "..warp)
 	else
@@ -113,6 +116,9 @@ local function setnewwarp(name, warp)
 		points_0gb_us.add_points(name, price.ore, -price.number)
 		points_0gb_us.save(name)
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		teleport[name][warp] = player:getpos()
 		save(name)
 		minetest.chat_send_player(name, 'Warp point "'..warp..'" added at current location.')
@@ -122,6 +128,9 @@ end
 local function setwarp(name, warp)
 	if teleport[name][warp] then
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		teleport[name][warp] = player:getpos()
 		save(name)
 		minetest.chat_send_player(name, 'Warp point "'..warp..'" moved to current location.')

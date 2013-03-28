@@ -29,6 +29,9 @@ minetest.register_chatcommand("claim", {
 	privs = {interact=true},
 	func = function(name, param)
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		local pos = player:getpos()
 		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local owner = landclaim_0gb_us.get_owner(pos)
@@ -55,6 +58,9 @@ minetest.register_chatcommand("unclaim", {
 	privs = {interact=true},
 	func = function(name, param)
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		local pos = player:getpos()
 		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local owner = landclaim_0gb_us.get_owner(pos)
@@ -84,6 +90,9 @@ minetest.register_chatcommand("sharearea", {
 	privs = {interact=true},
 	func = function(name, param)
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		local pos = player:getpos()
 		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local owner = landclaim_0gb_us.get_owner(pos)
@@ -114,6 +123,9 @@ minetest.register_chatcommand("unsharearea", {
 	privs = {interact=true},
 	func = function(name, param)
 		local player = minetest.env:get_player_by_name(name)
+		if not player then
+			return
+		end
 		local pos = player:getpos()
 		pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		local owner = landclaim_0gb_us.get_owner(pos)
@@ -146,6 +158,9 @@ minetest.register_chatcommand("mayedit", {
 		local pos = minetest.string_to_pos(param)
 		if not pos then
 			local player = minetest.env:get_player_by_name(name)
+			if not player then
+				return
+			end
 			pos = player:getpos()
 			pos.y = pos.y + .5 --compensated for Minetest's incorrect y coordinate for player objects
 		end
