@@ -17,10 +17,6 @@ Media: Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
 
 Anything added to this game must be compatible with those licenses.
 
-The stuff in the minetest_game directory:
-Copyright (C) 2010-2012 celeron55, Perttu Ahola <celeron55@gmail.com>
-
-The stuff in the added directory:
 Copyright (C) 2012-2013 0gb.us, Richard Palmer <0gb.us@0gb.us>
 
   --==--  0gb.us_game  --==--  
