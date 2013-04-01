@@ -21,7 +21,7 @@ Copyright (C) 2012-2013 0gb.us, Richard Palmer <0gb.us@0gb.us>
 
   --==--  0gb.us_game  --==--  
 
-This is the game directory used on the 0gb.us:30000 server. It is not meant to be the perfect game. There are so many things I would love to see in Minetest, but most of them will not be implemented here. This game's goal is to provide an environment where users hold enough power that administrators and moderators are not necessary, while not deviating from minetest_game too much. Specifically, no new nodes may be defined, now alterations to the number of each node available may be modified, and any entities defined must have little effect on the game itself as well as have a built-in self-destruct mechanism, to prevent most of them from being saved to the SQLite file. As of Minetest 0.4.6, all nodes must be defined in common, but in rare cases, may be redefined.
+This is the game directory used on the 0gb.us:30000 server. It is not meant to be the perfect game. There are so many things I would love to see in Minetest, but most of them will not be implemented here. This game's goal is to provide an environment where users hold enough power that administrators and moderators are not necessary, while not deviating from minetest_game too much. Specifically, no new nodes may be defined, no alterations to the number of each node available may be modified, and any entities defined must have little effect on the game itself as well as have a built-in self-destruct mechanism, to prevent most of them from being saved to the SQLite file. As of Minetest 0.4.6, all nodes must be defined in common, but in rare cases, may be redefined.
 
 Some administrative tools ARE included. While the goal involves setting things up to not REQUIRE a staff, as staff does tend to make things better. Any administrative tools defined must not give the staff new capabilities. Rather, these tools provide a faster way to do what they could have already been able to do without said tools.
 
@@ -29,7 +29,7 @@ As stated above, this is the game used at 0gb.us:30000. I reserve the right to d
 
   --==-- Usability fixes:  --==--  
 
-Usability fixes may also be added to this game, provided they adhere to the basic rules imposed by this game's development. In addition, the following plugins from minetest_game are not included:
+Usability fixes may also be added to this game, provided they adhere to the basic rules imposed by this game's development. In addition, the following plugins from common are not included:
 
 * wool and dye: These two shouldn't even be in minetest_game anyway, as there is no way to obtain them. New players type "/mods", see wool, and say "Wool is installed. How do I get it?". All these two do by default is cause confusion.
 * creative: While it makes sense to have creative in minetest_game, there was no point in including it on my non-creative server.
