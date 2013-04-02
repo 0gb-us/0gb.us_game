@@ -26,10 +26,10 @@ if minetest.get_modpath("bucket") then
 	})
 
 	for key, value in pairs(bucket.liquids) do
-		if minetest.registered_items[value.itemname].on_use then
+		if minetest.registered_items[value.itemname].on_place then
 			local item = minetest.registered_items[value.itemname]
-			local on_use = item.on_use
-			function item.on_use(itemstack, user, pointed_thing)
+			local on_place = item.on_place
+			function item.on_place(itemstack, user, pointed_thing)
 				if pointed_thing.type ~= "node" then
 					return
 				end
@@ -37,13 +37,13 @@ if minetest.get_modpath("bucket") then
 				local player = user:get_player_name()
 				if minetest.registered_nodes[n.name].buildable_to then
 					if landclaim_0gb_us.can_interact(player, pointed_thing.under) then
-						return on_use(itemstack, user, pointed_thing)
+						return on_place(itemstack, user, pointed_thing)
 					else
 						minetest.chat_send_player(player, "Area owned by "..landclaim_0gb_us.get_owner(pointed_thing.under))
 					end
 				else
 					if landclaim_0gb_us.can_interact(player, pointed_thing.above) then
-						return on_use(itemstack, user, pointed_thing)
+						return on_place(itemstack, user, pointed_thing)
 					else
 						minetest.chat_send_player(player, "Area owned by "..landclaim_0gb_us.get_owner(pointed_thing.above))
 					end
