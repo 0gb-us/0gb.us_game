@@ -1,0 +1,11 @@
+strict_protocol_version_checking = true
+creative_mode = false
+enable_damage = true
+give_initial_stuff = true
+unlimited_player_transfer_distance = false
+enable_pvp = false
+disallow_empty_password = true
+disable_anticheat = false
+mg_name = v6
+mg_flags = trees, caves, v6_biome_blend, v6_jungles, dungeons
+
