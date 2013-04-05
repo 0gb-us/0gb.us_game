@@ -26,6 +26,7 @@ function minetest.item_place_node(itemstack, placer, pointed_thing)
 		return default_place(itemstack, placer, pointed_thing)
 	else
 		minetest.chat_send_player(player, "Area owned by "..owner)
+		return itemstack
 	end
 end
 				

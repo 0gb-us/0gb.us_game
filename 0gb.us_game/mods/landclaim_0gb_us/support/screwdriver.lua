@@ -3,6 +3,9 @@ if minetest.get_modpath("screwdriver") then
 		local tool = minetest.registered_items["screwdriver:screwdriver"..i]
 		local on_use = tool.on_use
 		function tool.on_use(itemstack, user, pointed_thing)
+			if pointed_thing.type~="node" then
+				screwdriver_handler(itemstack,user,pointed_thing)
+			end
 			local pos = minetest.get_pointed_thing_position(pointed_thing,above)
 			local node=minetest.env:get_node(pos)
 			local name = user:get_player_name()
@@ -15,7 +18,9 @@ if minetest.get_modpath("screwdriver") then
 			else
 				local owner = landclaim_0gb_us.get_owner(pos)
 				minetest.chat_send_player(name, "Area owned by "..owner)
+				return itemstack
 			end
 		end
 	end
 end
+
