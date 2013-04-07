@@ -111,15 +111,15 @@ minetest.register_chatcommand("teleport", {
 	end,
 })
 
-minetest.chatcommands["give"] = nil
-minetest.chatcommands["giveme"] = nil
-minetest.chatcommands["spawnentity"] = nil
+minetest.chatcommands.give = nil
+minetest.chatcommands.giveme = nil
+minetest.chatcommands.spawnentity = nil
 
 if not minetest.get_modpath("logpulverize_0gb_us") then
-	minetest.chatcommands["pulverize"] = nil
+	minetest.chatcommands.pulverize = nil
 end
 
-minetest.chatcommands["rollback"] = nil
+minetest.chatcommands.rollback = nil
 
 minetest.register_chatcommand("clearobjects", {
 	params = "",
