@@ -18,9 +18,8 @@ minetest.register_chatcommand("drain", {
 		end
 
 		local center = landclaim_0gb_us.get_chunk_center(pos)
-		local min = math.max(center.y-7.5, 2)
 		
-		for y = min,center.y+7.5 do
+		for y = center.y-7.5,center.y+7.5 do
 			for x = center.x-7.5,center.x+7.5 do
 				for z = center.z-7.5,center.z+7.5 do
 					local node = minetest.env:get_node_or_nil({x=x,y=y,z=z})
