@@ -18,7 +18,7 @@ function landclaim_0gb_us.load_claims()
 			if line ~= "" then
 				local area = line:split(" ")
 				local shared = {}
-				if area[3] and area[3] ~= "*" then
+				if area[3] then
 					for k,v in ipairs(area[3]:split(",")) do
 						shared[v] = v
 					end
@@ -33,15 +33,12 @@ end
 function landclaim_0gb_us.save_claims()
 	local file = io.open(filename, "w")
 	for key,value in pairs(claims) do
-		local sharedata = ""
+		local sharestring = ""
 		for k,v in pairs(value.shared) do
-			sharedata = sharedata..v..","
+			sharestring = sharestring..v..","
 		end
-		local sharestring
-		if sharedata == "" then
-			sharestring = "*"
-		else
-			sharestring = sharedata:sub(1,-2)
+		if sharestring ~= "" then
+			sharestring = sharestring:sub(1,-2)
 		end
 		file:write(key.." "..value.owner.." "..sharestring.."\n")
 	end
@@ -71,7 +68,7 @@ end
 
 function landclaim_0gb_us.can_interact(name, pos)	
 	local chunk = landclaim_0gb_us.get_chunk(pos)
-	return claims[chunk] == nil or claims[chunk].owner == name or claims[chunk].shared[name]
+	return claims[chunk] == nil or claims[chunk].owner == name or claims[chunk].shared[name] or claims[chunk].shared["*"]
 		or (landclaim_0gb_us.override[name] and minetest.check_player_privs(name, {claim_admin=true}))
 end
 

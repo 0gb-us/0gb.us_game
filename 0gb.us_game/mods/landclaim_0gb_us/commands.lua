@@ -85,7 +85,7 @@ minetest.register_chatcommand("unclaim", {
 })
 
 minetest.register_chatcommand("sharearea", {
-	params = "<name>",
+	params = "<name|*>",
 	description = "shares the current map chunk with <name>",
 	privs = {interact=true},
 	func = function(name, param)
@@ -98,7 +98,7 @@ minetest.register_chatcommand("sharearea", {
 		local owner = landclaim_0gb_us.get_owner(pos)
 		if owner then
 			if (owner == name  or minetest.check_player_privs(name, {claim_admin=true})) and name ~= param then
-				if minetest.auth_table[param] then
+				if minetest.auth_table[param] or param == "*" then
 					claims[landclaim_0gb_us.get_chunk(pos)].shared[param] = param
 					landclaim_0gb_us.save_claims()
 					minetest.chat_send_player(name, param.." may now edit this area.")
@@ -118,7 +118,7 @@ minetest.register_chatcommand("sharearea", {
 })
 
 minetest.register_chatcommand("unsharearea", {
-	params = "<name>",
+	params = "<name|*>",
 	description = "unshares the current map chunk with <name>",
 	privs = {interact=true},
 	func = function(name, param)
